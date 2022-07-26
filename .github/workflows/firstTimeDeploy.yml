@@ -76,6 +76,9 @@ jobs:
   build-checkout-image:
     runs-on: ubuntu-latest
     needs: deploy-infra
+    defaults:
+      run:
+        working-directory: ./src/checkout
     steps:
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@main
@@ -103,12 +106,11 @@ jobs:
 
     - name: 'Build and Push API Image to ACR'
       uses: azure/docker-login@v1
-      working-directory: ./src/checkout
       with:
         login-server: ${{ steps.getacrcreds.outputs.loginServer }}
         username: ${{ steps.getacrname.outputs.acrName }}
         password: ${{ steps.getacrcreds.outputs.password }}
-      run: |
+    - run: |
           docker build . -t ${{ steps.getacrcreds.outputs.loginServer }}/checkout:${{ github.sha }}
           docker push ${{ steps.getacrcreds.outputs.loginServer }}/checkout:${{ github.sha }}
     
@@ -141,6 +143,9 @@ jobs:
   build-order-image:
     runs-on: ubuntu-latest
     needs: deploy-infra
+    defaults:
+      run:
+        working-directory: ./src/order-processor
     steps:
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@main
@@ -168,12 +173,11 @@ jobs:
 
     - name: 'Build and Push API Image to ACR'
       uses: azure/docker-login@v1
-      working-directory: ./src/order-processor
       with:
         login-server: ${{ steps.getacrcreds.outputs.loginServer }}
         username: ${{ steps.getacrname.outputs.acrName }}
         password: ${{ steps.getacrcreds.outputs.password }}
-      run: |
+    - run: |
         docker build . -t ${{ steps.getacrcreds.outputs.loginServer }}/order-processor:${{ github.sha }}
         docker push ${{ steps.getacrcreds.outputs.loginServer }}/order-processor:${{ github.sha }}
     
