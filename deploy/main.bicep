@@ -207,6 +207,12 @@ resource orderContainerApp 'Microsoft.App/containerApps@2022-03-01' = {
       {
         image: 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
         name: checkoutApp
+        env: [
+          {
+            name: 'appinsightsconnectionstring'
+            value: appInsights.properties.ConnectionString
+          }
+        ]
         resources: {
           cpu: '0.5'
           memory: '1.0Gi'
