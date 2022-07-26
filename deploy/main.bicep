@@ -6,10 +6,10 @@ param location string = resourceGroup().location
 param applicationName string = uniqueString(resourceGroup().id)
 
 @description('The image used for the Checkout app')
-param checkoutImage string
+param checkoutImage string = 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
 
 @description('The image used for the Order Processor app')
-param orderProcessorImage string
+param orderProcessorImage string = 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
 
 var containerRegistryName = '${applicationName}acr'
 var logAnalyticsWorkspaceName = '${applicationName}law'
