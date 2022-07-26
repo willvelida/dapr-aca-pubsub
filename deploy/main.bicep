@@ -5,6 +5,12 @@ param location string = resourceGroup().location
 @description('Name of our application.')
 param applicationName string = uniqueString(resourceGroup().id)
 
+@description('The image used for the Checkout app')
+param checkoutImage string
+
+@description('The image used for the Order Processor app')
+param orderProcessorImage string
+
 var containerRegistryName = '${applicationName}acr'
 var logAnalyticsWorkspaceName = '${applicationName}law'
 var appInsightsName = '${applicationName}ai'
@@ -144,7 +150,7 @@ resource checkoutContainerApp 'Microsoft.App/containerApps@2022-03-01' = {
     template: {
       containers: [
         {
-          image: 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
+          image: checkoutImage
           name: checkoutApp
           env: [
             {
@@ -205,8 +211,8 @@ resource orderContainerApp 'Microsoft.App/containerApps@2022-03-01' = {
    template: {
     containers: [
       {
-        image: 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
-        name: checkoutApp
+        image: orderProcessorImage
+        name: orderProcessorApp
         env: [
           {
             name: 'appinsightsconnectionstring'
