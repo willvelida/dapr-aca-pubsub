@@ -74,6 +74,7 @@ resource environment 'Microsoft.App/managedEnvironments@2022-03-01' = {
   location: location
   properties: {
    daprAIInstrumentationKey: appInsights.properties.InstrumentationKey
+   daprAIConnectionString: appInsights.properties.ConnectionString
    appLogsConfiguration: {
     destination: 'log-analytics'
     logAnalyticsConfiguration: {
@@ -149,6 +150,10 @@ resource checkoutContainerApp 'Microsoft.App/containerApps@2022-03-01' = {
             {
               name: 'APP_PORT'
               value: '${targetPort}'
+            }
+            {
+              name: 'appinsightsconnectionstring'
+              value: appInsights.properties.ConnectionString
             }
           ]
           resources: {
